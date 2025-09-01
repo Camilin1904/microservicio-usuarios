@@ -7,6 +7,7 @@ import co.analisys.biblioteca.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class UsuarioController {
         description = "Obtiene los detalles de un usuario dado su ID único."
     )
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public Usuario obtenerUsuario(@PathVariable String id) {
         return usuarioService.obtenerUsuario(new UsuarioId(id));
     }
@@ -29,6 +31,7 @@ public class UsuarioController {
         description = "Actualiza la dirección de correo electrónico de un usuario específico."
     )
     @PutMapping("/{id}/email")
+    @PreAuthorize("hasRole('ROLE_LIBRARIAN')")
     public void cambiarEmail(@PathVariable String id, @RequestBody String nuevoEmail) {
         usuarioService.cambiarEmailUsuario(new UsuarioId(id), new Email(nuevoEmail));
     }
